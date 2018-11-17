@@ -5,10 +5,12 @@ import re
 def find_numder(url_list):
     for url in url_list:
         page = requests.get(url)
-
-        number_template = re.compile(r"(\d{1}[\s-]\d{3}[\s-]\d{3}[\s-]\d{2}[\s-]\d{2})|(\d{11})|(\d{1}[\s-][\(]\d{3}[\)][\s-]\d{3}[\s-]\d{2}[\s-]\d{2})")
+        # "(\d{1}[\s-][(]*\d{3}[)]*[\s-]\d{3}[\s-]\d{2}[\s-]\d{2})"v1
+        # "(\d{1})*([(\s-]*[(]*)(\d{3})([)]*[)\.\s-]*)(\d{3})([\.\s-])*(\d{2})([\.\s-])*(\d{2})" v2
+        # "(\d{11})"
+        number_template = re.compile(
+            r"(\d{1}[\s-]\d{3}[\s-]\d{3}[\s-]\d{2}[\s-]\d{2})|(\d{11})|(\d{1}[\s-][\(]\d{3}[\)][\s-]\d{3}[\s-]\d{2}[\s-]\d{2})")
         res = re.findall(number_template, page.text)
-        # print(res[0])
         print("from url: ", url)
         answer = set()
         for r in res:
